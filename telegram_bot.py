@@ -2,8 +2,10 @@ from telegram import Update, User
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes
 from telegram.ext import filters
 from supabase import create_client, Client
+from dotenv import load_dotenv
 import logging
 import requests
+import os
 
 # Configure logging
 logging.basicConfig(
@@ -11,14 +13,17 @@ logging.basicConfig(
     level=logging.INFO
 )
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Supabase setup
-SUPABASE_URL = "https://mddycouxiomhpcskngsf.supabase.co"  # Replace with your Supabase URL
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1kZHljb3V4aW9taHBjc2tuZ3NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczNzY5NjYsImV4cCI6MjA0Mjk1Mjk2Nn0.EatakqfLnxMb9EFiSotKRp94CKbb7dJcYZSuij-dgN8"  # Replace with your Supabase API key
+SUPABASE_URL = os.getenv("SUPABASE_URL")  # Replace with your Supabase URL
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")  # Replace with your Supabase API key
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Initialize admin ID and bot token
 admin_ids = [6119547076, 7127199179]  # Replace with your Telegram user ID to restrict certain commands
-bot_token = "7671785300:AAFk5aHls7ccZEaRkGezn5hitIy_DS2ZSzY"  # Replace with your bot token
+bot_token = os.getenv("TELEGRAM_BOT_TOKEN")  # Replace with your bot token
 
 # Remove webhook before starting
 def remove_webhook():
