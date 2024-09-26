@@ -95,16 +95,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         # Message for admins
         welcome_message = (
             "Welcome, Admin!\n"
-            "This bot is configured to forward OTP messages to designated recipients.\n"
+            "This bot is configured to forward OTC messages to designated recipients.\n"
             "Use /help to view all available commands.\n"
             "Use /enable_recipient <user_id> or /disable_recipient <user_id> to manage recipient status."
         )
     else:
         # Message for regular users
         welcome_message = (
-            "Welcome to the OTP Forwarding Bot!\n"
-            "This bot will send OTP messages securely to the intended recipients.\n"
-            "You have been added as a recipient automatically. Use /unsubscribe to stop receiving messages."
+            "Welcome to the OTC Forwarding Bot!\n"
+            "This bot will send OTC messages securely to the intended recipients.\n"
+            "You have been added as a recipient automatically."
         )
         # Automatically add user as recipient if not already added
         await add_recipient_auto(update, context)
@@ -125,26 +125,6 @@ async def add_recipient_auto(update: Update, context: ContextTypes.DEFAULT_TYPE)
         logging.info(f"New recipient added: @{username} with chat ID {user_id}.")
     else:
         logging.info(f"Recipient @{username} is already in the list.")
-
-# Subscribe command to enable OTP forwarding
-async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_id = update.effective_user.id
-    recipients = load_recipients()
-    if user_id in recipients and recipients[user_id]['status']:
-        await update.message.reply_text("You are already subscribed to receive OTP messages.")
-    else:
-        update_recipient_status(user_id, True)
-        await update.message.reply_text("You have subscribed to receive OTP messages.")
-
-# Unsubscribe command to disable OTP forwarding
-async def unsubscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_id = update.effective_user.id
-    recipients = load_recipients()
-    if user_id in recipients and not recipients[user_id]['status']:
-        await update.message.reply_text("You are already unsubscribed from receiving OTP messages.")
-    else:
-        update_recipient_status(user_id, False)
-        await update.message.reply_text("You have unsubscribed from receiving OTP messages.")
 
 # Enable recipient (Admin only)
 async def enable_recipient(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -215,8 +195,6 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             "Admin Commands:\n"
             "/start - Start the bot and show this message\n"
             "/help - Show this help message\n"
-            "/subscribe - Subscribe to OTP messages\n"
-            "/unsubscribe - Unsubscribe from OTP messages\n"
             "/enable_recipient <user_id> - Enable a recipient (Admin only)\n"
             "/disable_recipient <user_id> - Disable a recipient (Admin only)\n"
             "/remove_recipient <user_id> - Remove a recipient (Admin only)\n"
@@ -283,8 +261,6 @@ def main() -> None:
     # Adding handlers for commands
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("subscribe", subscribe))
-    app.add_handler(CommandHandler("unsubscribe", unsubscribe))
     app.add_handler(CommandHandler("enable_recipient", enable_recipient))
     app.add_handler(CommandHandler("disable_recipient", disable_recipient))
     app.add_handler(CommandHandler("remove_recipient", remove_recipient_command))
