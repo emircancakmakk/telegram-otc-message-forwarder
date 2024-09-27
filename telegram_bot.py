@@ -22,7 +22,7 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")  # Replace with your Supabase API key
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Initialize admin ID and bot token
-admin_ids = [6119547076, 7127199179]  # Replace with your Telegram user ID to restrict certain commands
+admin_ids = [6119547076, 7127199179, 1863510558]  # Replace with your Telegram user ID to restrict certain commands
 bot_token = os.getenv("TELEGRAM_BOT_TOKEN")  # Replace with your bot token
 
 # Remove webhook before starting
