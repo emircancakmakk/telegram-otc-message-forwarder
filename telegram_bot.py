@@ -48,7 +48,7 @@ def load_recipients():
             recipients[recipient["user_id"]] = {
                 "chat_id": recipient["chat_id"],
                 "username": recipient["username"],
-                "status": recipient["status"]  # Adding status to recipients dictionary
+                "status": recipient["status"]
             }
         logging.info("Recipients loaded successfully.")
     except Exception as e:
